@@ -18,24 +18,32 @@ function App() {
     },
     {
       title: "Market Cap",
-      dataIndex: "market_cap",
       key: "market_cap",
+      render: (coinList) => {
+        return coinList.market_cap?.toLocaleString();
+      },
     },
 
     {
       title: "Fully Diluted Valuation",
-      dataIndex: "fully_diluted_valuation",
       key: "fully_diluted_valuation",
+      render: (coinList) => {
+        return coinList.fully_diluted_valuation?.toLocaleString();
+      },
     },
     {
       title: "Current Price",
-      dataIndex: "current_price",
       key: "current_price",
+      render: (coinList) => {
+        return coinList.current_price?.toLocaleString();
+      },
     },
     {
       title: "24h Price Change",
-      dataIndex: "price_change_24h",
       key: "price_change_24h",
+      render: (coinList) => {
+        return coinList.price_change_24h?.toLocaleString();
+      },
     },
     {
       title: "All Time High Percentage",
@@ -44,8 +52,10 @@ function App() {
     },
     {
       title: "Total Volume",
-      dataIndex: "total_volume",
       key: "total_volume",
+      render: (coinList) => {
+        return coinList.total_volume?.toLocaleString();
+      },
     },
   ];
 
@@ -77,10 +87,6 @@ function App() {
 
     getCoins();
   }, [tokens]);
-
-  // const nonTokens = tokens.filter((i) => !coinList.includes(i.id));
-
-  // console.log({ nonTokens });
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
