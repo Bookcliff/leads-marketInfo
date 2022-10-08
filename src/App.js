@@ -6,7 +6,9 @@ const { Header, Footer, Content } = Layout;
 
 function App() {
   const [coinList, setCoinList] = useState([]);
-  const [tokens, setTokens] = useState([]);
+  const [tokens, setTokens] = useState();
+
+  console.log(coinList);
 
   const createColumns = () => [
     {
@@ -48,21 +50,6 @@ function App() {
   ];
 
   useEffect(() => {
-    const getCoins = async () => {
-      let page = 1;
-      let data = [];
-
-      while (page <= 15) {
-        const coinData = await fetch(`api/getCoins/?page=${page}`);
-        const coinJson = await coinData.json();
-        const fullData = coinJson.data;
-        fullData.forEach((element) => data.push(element));
-        page++;
-      }
-
-      setCoinList(data);
-    };
-
     const getTokens = async () => {
       const tokenData = await fetch("api/getSheet");
       const tokenDataJson = await tokenData.json();
@@ -70,20 +57,30 @@ function App() {
       setTokens(fullData);
     };
     getTokens();
-    getCoins();
   }, []);
 
-  const tokenNames = tokens?.map((token) => token.id);
+  useEffect(() => {
+    const tokenNames = tokens?.map((token) => token.coingeko_id);
+    const tokenStr = encodeURIComponent(tokenNames);
 
-  const tokenData = coinList?.filter((element) =>
-    tokenNames.includes(element.id)
-  );
+    const getCoins = async () => {
+      if (!tokens) {
+        setCoinList([]);
+        return;
+      }
+      const coinData = await fetch(`api/getCoins/?id=${tokenStr}`);
+      const coinJson = await coinData.json();
+      const fullData = coinJson.data;
 
-  const nonTokenData = tokenNames?.filter(
-    (element) => !tokenData.includes((i) => i === element.id)
-  );
+      setCoinList(fullData);
+    };
 
-  console.log({ nonTokenData, tokenData });
+    getCoins();
+  }, [tokens]);
+
+  // const nonTokens = tokens.filter((i) => !coinList.includes(i.id));
+
+  // console.log({ nonTokens });
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -107,7 +104,7 @@ function App() {
               pagination={false}
               rowKey={(record) => record.logIndex}
               columns={createColumns()}
-              dataSource={tokenData}
+              dataSource={coinList}
               scroll={{ x: 400 }}
             />
           </Col>
