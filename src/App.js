@@ -8,8 +8,6 @@ function App() {
   const [coinList, setCoinList] = useState([]);
   const [tokens, setTokens] = useState();
 
-  console.log(coinList);
-
   const createColumns = () => [
     {
       title: "Company",
@@ -19,30 +17,30 @@ function App() {
     {
       title: "Market Cap",
       key: "market_cap",
-      render: (coinList) => {
-        return coinList.market_cap?.toLocaleString();
+      render: (combinedData) => {
+        return combinedData.market_cap?.toLocaleString();
       },
     },
 
     {
       title: "Fully Diluted Valuation",
       key: "fully_diluted_valuation",
-      render: (coinList) => {
-        return coinList.fully_diluted_valuation?.toLocaleString();
+      render: (combinedData) => {
+        return combinedData.fully_diluted_valuation?.toLocaleString();
       },
     },
     {
       title: "Current Price",
       key: "current_price",
-      render: (coinList) => {
-        return coinList.current_price?.toLocaleString();
+      render: (combinedData) => {
+        return combinedData.current_price?.toLocaleString();
       },
     },
     {
       title: "24h Price Change",
       key: "price_change_24h",
-      render: (coinList) => {
-        return coinList.price_change_24h?.toLocaleString();
+      render: (combinedData) => {
+        return combinedData.price_change_24h?.toLocaleString();
       },
     },
     {
@@ -53,8 +51,19 @@ function App() {
     {
       title: "Total Volume",
       key: "total_volume",
-      render: (coinList) => {
-        return coinList.total_volume?.toLocaleString();
+      render: (combinedData) => {
+        return combinedData.total_volume?.toLocaleString();
+      },
+    },
+    {
+      title: "Website",
+      key: "website",
+      render: (combinedData) => {
+        return (
+          <a href={combinedData.Website} target="_blank" rel="noreferrer">
+            {combinedData.Website}
+          </a>
+        );
       },
     },
   ];
@@ -88,6 +97,11 @@ function App() {
     getCoins();
   }, [tokens]);
 
+  const combinedData = coinList?.map((element) => ({
+    ...element,
+    ...tokens.find((token) => token.coingeko_id === element.id),
+  }));
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header>
@@ -110,7 +124,7 @@ function App() {
               pagination={false}
               rowKey={(record) => record.logIndex}
               columns={createColumns()}
-              dataSource={coinList}
+              dataSource={combinedData}
               scroll={{ x: 400 }}
             />
           </Col>
