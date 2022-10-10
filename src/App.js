@@ -33,20 +33,31 @@ function App() {
       title: "Current Price",
       key: "current_price",
       render: (combinedData) => {
-        return combinedData.current_price?.toLocaleString();
+        return combinedData.current_price?.toLocaleString("en", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
       },
     },
     {
       title: "24h Price Change",
       key: "price_change_24h",
       render: (combinedData) => {
-        return combinedData.price_change_24h?.toLocaleString();
+        return combinedData.price_change_24h?.toLocaleString("en", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
       },
     },
     {
       title: "All Time High Percentage",
-      dataIndex: "ath_change_percentage",
       key: "ath_change_percentage",
+      render: (combinedData) => {
+        return combinedData.ath_change_percentage?.toLocaleString("en", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
+      },
     },
     {
       title: "Total Volume",
@@ -115,7 +126,16 @@ function App() {
           style={{ backgroundColor: "#fff" }}
           title="Notable Companies Information"
         >
-          Notable Companies Information
+          Market information for pre-selected companies or DAOs that have
+          tokens. Update{" "}
+          <a
+            href="https://docs.google.com/spreadsheets/d/1hlG8Co8jxmy1B3JmIl0u1E7KiAnpiOnyVIQiaHHhCoU/edit#gid=0"
+            target="_blank"
+            rel="noreferrer"
+          >
+            this spreadsheet
+          </a>{" "}
+          to update the list.
         </PageHeader>
         <Row>
           <Col span={24}>
