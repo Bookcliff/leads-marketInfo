@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Layout, Row, Col, Table, PageHeader, Button } from "antd";
+import { Layout, Row, Col, Table, PageHeader, Button, Input } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import "./App.less";
 const { Header, Footer, Content } = Layout;
+const { Search } = Input;
 
 function App() {
   const [coinList, setCoinList] = useState([]);
   const [tokens, setTokens] = useState();
+  const [query, setQuery] = useState();
 
   const createColumns = () => [
     {
@@ -115,7 +117,6 @@ function App() {
       const coinData = await fetch(`api/getCoins/?id=${tokenStr}`);
       const coinJson = await coinData.json();
       const fullData = coinJson.data;
-      // console.log(fullData);
 
       setCoinList(fullData);
     };
@@ -128,7 +129,16 @@ function App() {
     ...tokens.find((token) => token.coingeko_id === element.id),
   }));
 
-  console.log({ combinedData });
+  const filterData = () => {
+    if (query === undefined) {
+      return combinedData;
+    } else {
+      const updatedData = combinedData?.filter(({ name }) =>
+        name.toLowerCase().includes(query)
+      );
+      return updatedData;
+    }
+  };
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -175,6 +185,13 @@ function App() {
             this spreadsheet
           </a>{" "}
           to update the list.
+          <Search
+            placeholder="input search text"
+            allowClear
+            enterButton="Search"
+            size="large"
+            onSearch={setQuery}
+          />
         </PageHeader>
         <Row>
           <Col span={24}>
@@ -183,7 +200,7 @@ function App() {
               pagination={false}
               rowKey={(record) => record.logIndex}
               columns={createColumns()}
-              dataSource={combinedData}
+              dataSource={filterData()}
               scroll={{ x: 400 }}
             />
           </Col>
