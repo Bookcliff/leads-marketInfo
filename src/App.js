@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Layout, Row, Col, Table, PageHeader } from "antd";
-import "./App.css";
-
+import { Layout, Row, Col, Table, PageHeader, Button } from "antd";
+import { GithubOutlined } from "@ant-design/icons";
+import "./App.less";
 const { Header, Footer, Content } = Layout;
 
 function App() {
@@ -115,10 +115,32 @@ function App() {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header>
+      <Header style={{ backgroundColor: "#f6ffed" }}>
         <Row justify="space-between">
-          <Col></Col>
-          <Col> </Col>
+          <Col>
+            <img
+              style={{
+                float: "left",
+                height: 31,
+                // width: 200,
+                margin: "16px 0px 16px 0",
+              }}
+              src="https://tse3.mm.bing.net/th?id=OIP.XYaeDXspGLV6vl4xFh7CDgHaHa"
+              alt="abg logo"
+            />
+            <b> Always Be Growing</b>
+          </Col>
+          <Col>
+            {" "}
+            <Button
+              onClick={() => {
+                window.open("https://github.com/Bookcliff/leads-marketInfo");
+              }}
+              type="text"
+            >
+              <GithubOutlined />
+            </Button>
+          </Col>
         </Row>
       </Header>
       <Content style={{ padding: "0 24px", marginTop: 16 }}>
@@ -150,7 +172,9 @@ function App() {
           </Col>
         </Row>
       </Content>
-      <Footer></Footer>
+      <Footer style={{ textAlign: "center" }}>
+        Created by <a href="https://abg.garden">Always Be Growing</a>
+      </Footer>{" "}
     </Layout>
   );
 }
