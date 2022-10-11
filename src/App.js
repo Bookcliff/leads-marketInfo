@@ -133,8 +133,9 @@ function App() {
     if (query === undefined) {
       return combinedData;
     } else {
+      const lowerCaseQuery = query.toLowerCase();
       const updatedData = combinedData?.filter(({ name }) =>
-        name.toLowerCase().includes(query)
+        name.toLowerCase().includes(lowerCaseQuery)
       );
       return updatedData;
     }
