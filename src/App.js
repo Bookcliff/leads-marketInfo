@@ -10,6 +10,15 @@ function App() {
 
   const createColumns = () => [
     {
+      title: "",
+      key: "image",
+      render: (combinedData) => {
+        return (
+          <img style={{ width: 24 }} src={combinedData.image} alt="logo"></img>
+        );
+      },
+    },
+    {
       title: "Company",
       dataIndex: "name",
       key: "name",
@@ -67,6 +76,11 @@ function App() {
       },
     },
     {
+      title: "Comments",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
       title: "Website",
       key: "website",
       render: (combinedData) => {
@@ -101,6 +115,7 @@ function App() {
       const coinData = await fetch(`api/getCoins/?id=${tokenStr}`);
       const coinJson = await coinData.json();
       const fullData = coinJson.data;
+      // console.log(fullData);
 
       setCoinList(fullData);
     };
@@ -112,6 +127,8 @@ function App() {
     ...element,
     ...tokens.find((token) => token.coingeko_id === element.id),
   }));
+
+  console.log({ combinedData });
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
