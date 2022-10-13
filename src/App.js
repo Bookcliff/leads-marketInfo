@@ -71,7 +71,7 @@ function App() {
       },
     },
     {
-      title: "Total Volume",
+      title: "24 Hour Trading Volume",
       key: "total_volume",
       render: (combinedData) => {
         return combinedData.total_volume?.toLocaleString();
